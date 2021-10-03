@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\Controller::class, 'index']);
 
 Route::post('/text/store', [App\Http\Controllers\Controller::class, 'store'])->name('text.store');
-Route::get('/text/highlight', [App\Http\Controllers\Controller::class, 'textHighlight']);
+
 
 Auth::routes();
 
