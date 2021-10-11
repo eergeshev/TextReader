@@ -25,7 +25,6 @@
                 </div>
                 
             @endforeach
-
         </div>
     </div>
 
@@ -33,36 +32,45 @@
 @push('scripts')
     <script>
         function button(div, text_id, time){
-
+            
             var t = $(time).val()
             if(!t){
                 alert('Please type time in millisecond!');
             }else{
+              
                 var words = $(div).text().split( /\s+/ );
-                
+               
                 console.log(words);
                 var text="";
-                $.each(words, function(a, b) {
-                    text += "<span id='p"+a+"' style='color:black'>" + b + "</span> ";
-                });
-                $(div).html(text).css('font-size', '20px');
+                function color(){
+                    $.each(words, function(a, b) {
+                        text += "<span id='p"+a+"' style='color:black'>" + b + "</span> ";
+                    });
+                }
+               
+                function spann(){
+                    color();
+                    $(div).html(text).css('font-size', '20px', 'color', 'black');
+                }
                 
                 function change(index){
                     var q = index-1;
                     $(div).find('#p'+index).css("color", "orange");
                     $(div).find('#p'+q).css("color", "black");
                 }
-
-                function nextWord(){
+                var timer;
+                function nextWord(words){
+                    spann();
+                    
                     for( var i=0; i < words.length+1; i++){
-                        (function (i) {
+                        timer = (function (i) {
                             setTimeout(function () {
                                 change(i)
-                            }, t * i);
+                            }, 1000);
                         })(i);
                     }
                 }
-                nextWord();
+                nextWord(words);
             }
         }     
     </script>

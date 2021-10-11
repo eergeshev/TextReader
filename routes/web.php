@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TextController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\Controller::class, 'index']);
+Route::get('/', [TextController::class, 'index']);
+Route::post('/store', [TextController::class, 'store'])->name('text.store');
+Route::get('/settime/edit/{id}', [TextController::class, 'edittext'])->name('text.editsettime');
+Route::post('/text/edittime', [TextController::class, 'updatetime']);
+Route::post('/text/play', [TextController::class, 'play']);
 
-Route::post('/text/store', [App\Http\Controllers\Controller::class, 'store'])->name('text.store');
+
+Route::get('/welcome', [App\Http\Controllers\Controller::class, 'index']);
+
+Route::get('/test', function(){
+    return view('test');
+});
 
 
 Auth::routes();
