@@ -23,7 +23,6 @@
                 </tbody>
 
             </table>
-            
 
         </div>
         <div class="col-sm-8">
@@ -55,47 +54,38 @@
 
 @endsection
 @push('scripts')
-
+<script type="text/javascript">
+    
+</script>
     <script>
+        window.data = {!! json_encode($data) !!};
+       
         function button(div, text_id){
             var audio = document.getElementById("myVideo");
             var subtitles = document.getElementById("subtitles");
             subtitles.innerHTML = "";
-            audio.play();
-           
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '/text/play',
-                type:'post',
-                datatype: 'json',
-                data: {
-                    'text_id': text_id,
-                    
-                },
-                success:function(data){
-                    createSubtitle();
+         
+            var data = window.data.text;
 
-                    function createSubtitle()
-                    {
-                        var element;
-                        for (var i = 0; i < data.length; i++) {
-                            element = document.createElement('span');
-                            element.setAttribute("id", "c_" + i);
-                            element.innerText = data[i]['word'] + " ";
-                            subtitles.appendChild(element);
-                        }
-                    }
+            createSubtitle();
 
-                    audio.addEventListener("timeupdate", function(e){
-                        data.forEach(function(element, index, array){
-                            if( audio.currentTime >= element.start && audio.currentTime <= element.end )
-                                subtitles.children[index].style.color = 'orange';
-                                subtitles.children[index+1].style.color = 'black';
-                        });
-                    });
-                } 
+            function createSubtitle()
+            {
+                var element;
+                for (var i = 0; i < data.length; i++) {
+                    element = document.createElement('span');
+                    element.setAttribute("id", "c_" + i);
+                    element.innerText = data[i]['word'] + " ";
+                    subtitles.appendChild(element);
+                }
+            }
+
+            audio.addEventListener("timeupdate", function(e){
+                data.forEach(function(element, index, array){
+                    if( audio.currentTime >= element.start && audio.currentTime <= element.end )
+                        subtitles.children[index].style.color = 'orange';
+                        subtitles.children[index+1].style.color = 'black';
+                });
             });
         }
     </script>

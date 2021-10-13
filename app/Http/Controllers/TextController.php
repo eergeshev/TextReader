@@ -67,9 +67,10 @@ class TextController extends Controller
         $index1 = $data['index1'];
         $index2 = $data['index2'];
         $value = $data['value'];
-        // dd($data);
+        dd($data);
         $text = Text::findOrFail($data['text_id']);
       
+        sleep(2);
         $array_text = $text->text;
         if($index2 == 1){
             $array_text[$index1]['start'] = $value;
@@ -91,12 +92,16 @@ class TextController extends Controller
     }
 
     public function play(Request $request){
-        $data = $request->all();
+        $data = $request->validate([
+            'text_id' => 'required'
+        ]);
+        
+
         $text_id = $data['text_id'];
 
         $text = Text::findOrFail($text_id);
         $array_text = $text->text;
-   
+        // sleep(3);
         return $array_text;
     }
     
